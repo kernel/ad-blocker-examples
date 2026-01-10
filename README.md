@@ -51,7 +51,7 @@ We tested three popular ad blockers against `https://13f.info/form-d` (a site wi
 
 1. Install the Kernel CLI:
    ```bash
-   brew install onkernel/tap/kernel
+   brew install kernel/tap/kernel
    # or
    npm install -g @onkernel/cli
    ```
@@ -222,12 +222,10 @@ for (const p of pages) {
 ```
 .
 ├── README.md                 # This guide
-├── extensions/
-│   ├── adguard/              # AdGuard extension (recommended)
-│   ├── ublock-origin/        # uBlock Origin extension
-│   └── poper-blocker/        # Poper Blocker extension
-├── network-traces/           # Network trace outputs
-└── screenshots/              # Browser screenshots
+├── CLI_COMMANDS.md           # Quick reference CLI commands
+├── TEST_RESULTS.md           # Detailed test results
+└── examples/
+    └── test-adblocker.ts     # Example Playwright test script
 ```
 
 ## Additional Resources

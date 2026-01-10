@@ -14,13 +14,14 @@ AdGuard is the only tested extension that works immediately out of the box witho
 
 ### Baseline (No Extension)
 
-| Metric | Value |
-|--------|-------|
-| Total Requests | 47 |
-| Ad-Related Requests | 12 |
-| Pages Opened | 1 |
+| Metric              | Value |
+| ------------------- | ----- |
+| Total Requests      | 47    |
+| Ad-Related Requests | 12    |
+| Pages Opened        | 1     |
 
 **Ad-related domains detected:**
+
 - `pagead2.googlesyndication.com` (Google AdSense)
 - `googleads.g.doubleclick.net` (DoubleClick)
 - `fundingchoicesmessages.google.com` (Funding Choices/Consent)
@@ -30,20 +31,22 @@ AdGuard is the only tested extension that works immediately out of the box witho
 
 ### AdGuard ✅ RECOMMENDED
 
-| Metric | Value |
-|--------|-------|
-| Total Requests | 13 |
-| Ad-Related Requests | 1 |
-| Pages Opened | 2 |
-| Blocking Rate | **92%** |
+| Metric              | Value   |
+| ------------------- | ------- |
+| Total Requests      | 13      |
+| Ad-Related Requests | 1       |
+| Pages Opened        | 2       |
+| Blocking Rate       | **92%** |
 
 **Behavior:**
+
 - Works immediately without configuration
 - Opens a "Thank you for installing" welcome page (non-blocking)
 - Uses Manifest V3 (modern Chrome extension architecture)
 - Filter lists are pre-compiled and ready to use
 
 **Only remaining ad request:**
+
 - Initial `adsbygoogle.js` script load (blocked before execution)
 
 **Welcome Page:** `https://welcome.adguard.com/v2/thankyou.html`  
@@ -53,39 +56,42 @@ This page can be closed programmatically and does not affect blocking.
 
 ### uBlock Origin ❌ NOT WORKING
 
-| Metric | Value |
-|--------|-------|
-| Total Requests | 46 |
-| Ad-Related Requests | 24 |
-| Pages Opened | 1 |
-| Blocking Rate | **-100%** (more ads than baseline!) |
+| Metric              | Value                               |
+| ------------------- | ----------------------------------- |
+| Total Requests      | 46                                  |
+| Ad-Related Requests | 24                                  |
+| Pages Opened        | 1                                   |
+| Blocking Rate       | **-100%** (more ads than baseline!) |
 
 **Why it doesn't work:**
+
 1. Uses Manifest V2 with `webRequestBlocking`
 2. Filter lists need to be loaded and compiled on first run
 3. Initialization requires network requests to CDNs
 4. No welcome page means extension may not have triggered initialization
 
 **Technical Details:**
+
 - Filter lists bundled: `easylist.txt`, `easyprivacy.txt`, `urlhaus-filter-online.txt`
 - Lists need parsing/compilation before blocking works
 - First navigation completes before filters are ready
 
-**Potential Fix:** 
+**Potential Fix:**
 Would require pre-compiling filter lists or waiting longer for initialization. Not recommended for automation.
 
 ---
 
 ### Poper Blocker ❌ NOT WORKING
 
-| Metric | Value |
-|--------|-------|
-| Total Requests | 64 |
-| Ad-Related Requests | 24 |
-| Pages Opened | 2 |
-| Blocking Rate | **-100%** |
+| Metric              | Value     |
+| ------------------- | --------- |
+| Total Requests      | 64        |
+| Ad-Related Requests | 24        |
+| Pages Opened        | 2         |
+| Blocking Rate       | **-100%** |
 
 **Why it doesn't work:**
+
 1. Opens a dashboard page requiring user consent
 2. Privacy agreement must be accepted before blocking activates
 3. Freemium model with Pro upgrade prompts
@@ -93,6 +99,7 @@ Would require pre-compiling filter lists or waiting longer for initialization. N
 
 **Consent Dialog:**
 The extension shows a modal dialog requiring users to:
+
 - Agree to Terms of Service
 - Consent to browsing activity data collection
 - Configure blocking options
@@ -107,23 +114,23 @@ The extension shows a modal dialog requiring users to:
 
 ### Types of Blocked Requests (AdGuard)
 
-| Request Type | Baseline | AdGuard | Blocked |
-|--------------|----------|---------|---------|
-| DoubleClick ads | 6 | 0 | ✅ 100% |
-| Google Syndication | 5 | 1 | ✅ 80% |
-| Funding Choices | 8 | 0 | ✅ 100% |
-| Ad Traffic Quality | 3 | 0 | ✅ 100% |
+| Request Type       | Baseline | AdGuard | Blocked |
+| ------------------ | -------- | ------- | ------- |
+| DoubleClick ads    | 6        | 0       | ✅ 100% |
+| Google Syndication | 5        | 1       | ✅ 80%  |
+| Funding Choices    | 8        | 0       | ✅ 100% |
+| Ad Traffic Quality | 3        | 0       | ✅ 100% |
 
 ### Request Categories
 
-| Category | Baseline | With AdGuard |
-|----------|----------|--------------|
-| Total Requests | 47 | 13 |
-| Documents | 8 | 1 |
-| Scripts | 15 | 5 |
-| Fonts | 4 | 4 |
-| XHR/Fetch | 12 | 2 |
-| Images | 3 | 1 |
+| Category       | Baseline | With AdGuard |
+| -------------- | -------- | ------------ |
+| Total Requests | 47       | 13           |
+| Documents      | 8        | 1            |
+| Scripts        | 15       | 5            |
+| Fonts          | 4        | 4            |
+| XHR/Fetch      | 12       | 2            |
+| Images         | 3        | 1            |
 
 ---
 
@@ -132,6 +139,7 @@ The extension shows a modal dialog requiring users to:
 ### For General Automation
 
 Use **AdGuard**:
+
 ```bash
 kernel extensions download-web-store \
   "https://chromewebstore.google.com/detail/adguard-adblocker/bgnkhhnnamicmpeenaelnjfhikgbkllg" \
@@ -150,7 +158,7 @@ If you specifically need popup blocking and can handle the consent flow, conside
 Combine AdGuard with custom JavaScript to close popup windows:
 
 ```typescript
-page.on('popup', async (popup) => {
+page.on("popup", async (popup) => {
   await popup.close();
 });
 ```

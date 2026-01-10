@@ -6,7 +6,7 @@ Copy-paste commands for common operations.
 
 ```bash
 # Install Kernel CLI
-brew install onkernel/tap/kernel
+brew install kernel/tap/kernel
 
 # Set API key
 export KERNEL_API_KEY=your_api_key_here
@@ -112,7 +112,7 @@ SESSION=$(kernel browsers create --extension adguard -o json | jq -r '.session_i
 kernel browsers execute $SESSION --code '
   await page.goto("https://13f.info/form-d");
   await page.waitForLoadState("networkidle");
-  return { 
+  return {
     title: await page.title(),
     url: page.url()
   };
