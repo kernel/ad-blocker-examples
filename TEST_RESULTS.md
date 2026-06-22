@@ -54,7 +54,7 @@ This page can be closed programmatically and does not affect blocking.
 
 ---
 
-### uBlock Origin ❌ NOT WORKING
+### uBlock Origin (classic) ❌ NOT WORKING
 
 | Metric              | Value                               |
 | ------------------- | ----------------------------------- |
@@ -65,19 +65,10 @@ This page can be closed programmatically and does not affect blocking.
 
 **Why it doesn't work:**
 
-1. Uses Manifest V2 with `webRequestBlocking`
-2. Filter lists need to be loaded and compiled on first run
-3. Initialization requires network requests to CDNs
-4. No welcome page means extension may not have triggered initialization
+The classic uBlock Origin is a Manifest V2 extension built around blocking `webRequest`. Chromium has removed Manifest V2 support, so the extension never loads and no blocking happens — the result is indistinguishable from running with no extension at all.
 
-**Technical Details:**
-
-- Filter lists bundled: `easylist.txt`, `easyprivacy.txt`, `urlhaus-filter-online.txt`
-- Lists need parsing/compilation before blocking works
-- First navigation completes before filters are ready
-
-**Potential Fix:**
-Would require pre-compiling filter lists or waiting longer for initialization. Not recommended for automation.
+**Alternative:**
+Use [uBlock Origin Lite](https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh), the Manifest V3 successor. It uses `declarativeNetRequest` rather than blocking `webRequest`, so it loads on current Chromium, though it may block fewer requests than the classic build.
 
 ---
 
@@ -92,10 +83,10 @@ Would require pre-compiling filter lists or waiting longer for initialization. N
 
 **Why it doesn't work:**
 
-1. Opens a dashboard page requiring user consent
-2. Privacy agreement must be accepted before blocking activates
-3. Freemium model with Pro upgrade prompts
-4. Focuses on popups, not general ad blocking
+1. It is a Manifest V2 extension, so it no longer loads on current Chromium at all
+2. Even on older Chromium it opened a dashboard page requiring user consent
+3. Privacy agreement must be accepted before blocking activates
+4. Freemium model with Pro upgrade prompts; focuses on popups, not general ad blocking
 
 **Consent Dialog:**
 The extension shows a modal dialog requiring users to:

@@ -2,6 +2,8 @@
 
 This guide documents how to use popular ad blocker extensions with [Kernel](https://www.kernel.sh) cloud browsers for automation workflows.
 
+> **Manifest V3 only.** Kernel browsers track upstream Chromium, which has removed support for Manifest V2 extensions. MV2 extensions (including the classic build of uBlock Origin) will not load. Use Manifest V3 extensions such as AdGuard or uBlock Origin Lite.
+
 ## Quick Start (Recommended: AdGuard)
 
 Based on our testing, **AdGuard** is the recommended ad blocker for Kernel browser automation because it works immediately out of the box without any user interaction or configuration.
@@ -26,12 +28,13 @@ kernel browsers create --extension adguard
 
 We tested three popular ad blockers against `https://13f.info/form-d` (a site with Google AdSense ads):
 
-| Extension | Ad-Related Requests | Works Out of Box? | Notes |
-|-----------|---------------------|-------------------|-------|
-| **Baseline (no extension)** | 12 | N/A | Control test |
-| **AdGuard** | 1 | ✅ Yes | Best for automation |
-| **uBlock Origin** | 21-24 | ❌ No | Filter lists need initialization |
-| **Poper Blocker** | 24 | ❌ No | Requires consent dialog |
+| Extension | Manifest | Ad-Related Requests | Works Out of Box? | Notes |
+|-----------|----------|---------------------|-------------------|-------|
+| **Baseline (no extension)** | — | 12 | N/A | Control test |
+| **AdGuard** | V3 | 1 | ✅ Yes | Best for automation |
+| **uBlock Origin** (classic) | V2 | — | ❌ No | MV2; no longer loads on current Chromium |
+| **uBlock Origin Lite** | V3 | — | ⚠️ Untested | MV3 successor; uses `declarativeNetRequest` |
+| **Poper Blocker** | V2 | 24 | ❌ No | MV2; also gated behind a consent dialog |
 
 ### Why AdGuard Works Best
 
@@ -42,8 +45,8 @@ We tested three popular ad blockers against `https://13f.info/form-d` (a site wi
 
 ### Why Others Didn't Work
 
-- **uBlock Origin**: Uses Manifest V2 and requires filter lists to be loaded/compiled on first run. This typically happens via network requests and internal processing that may not complete before navigation.
-- **Poper Blocker**: Opens a consent dialog requiring users to agree to privacy terms before functioning. Not suitable for headless/automated use.
+- **uBlock Origin (classic)**: A Manifest V2 extension. Current Chromium no longer loads MV2 extensions, so it never activates. Its Manifest V3 successor, [uBlock Origin Lite](https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh), works under the new platform but uses `declarativeNetRequest` and may block fewer requests than the classic version.
+- **Poper Blocker**: A Manifest V2 extension, so it also no longer loads. Even on older Chromium it opened a consent dialog requiring users to agree to privacy terms before functioning, making it unsuitable for headless/automated use.
 
 ## Step-by-Step Guide
 
@@ -71,16 +74,13 @@ kernel extensions download-web-store \
   "https://chromewebstore.google.com/detail/adguard-adblocker/bgnkhhnnamicmpeenaelnjfhikgbkllg" \
   --to ./extensions/adguard
 
-# uBlock Origin (requires configuration)
+# uBlock Origin Lite (Manifest V3 successor to the classic build)
 kernel extensions download-web-store \
-  "https://chromewebstore.google.com/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm" \
-  --to ./extensions/ublock-origin
-
-# Poper Blocker (requires consent)
-kernel extensions download-web-store \
-  "https://chromewebstore.google.com/detail/poper-blocker-popup-block/bkkbcggnhapdmkeljlodobbkopceiche" \
-  --to ./extensions/poper-blocker
+  "https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh" \
+  --to ./extensions/ublock-origin-lite
 ```
+
+> The classic uBlock Origin and Poper Blocker are Manifest V2 extensions and no longer load on current Kernel browsers. Choose a Manifest V3 extension instead.
 
 ### Step 2: Upload Extension to Kernel
 

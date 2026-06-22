@@ -20,16 +20,13 @@ kernel extensions download-web-store \
   "https://chromewebstore.google.com/detail/adguard-adblocker/bgnkhhnnamicmpeenaelnjfhikgbkllg" \
   --to ./extensions/adguard
 
-# uBlock Origin
+# uBlock Origin Lite (Manifest V3)
 kernel extensions download-web-store \
-  "https://chromewebstore.google.com/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm" \
-  --to ./extensions/ublock-origin
-
-# Poper Blocker
-kernel extensions download-web-store \
-  "https://chromewebstore.google.com/detail/poper-blocker-popup-block/bkkbcggnhapdmkeljlodobbkopceiche" \
-  --to ./extensions/poper-blocker
+  "https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh" \
+  --to ./extensions/ublock-origin-lite
 ```
+
+> Manifest V2 extensions (classic uBlock Origin, Poper Blocker) no longer load on current Kernel browsers. Use Manifest V3 extensions.
 
 ## Upload Extensions to Kernel
 
@@ -51,7 +48,7 @@ kernel browsers create --extension adguard
 kernel browsers create --extension adguard --timeout 600 -o json
 
 # Create with multiple extensions
-kernel browsers create --extension adguard --extension poper-blocker
+kernel browsers create --extension adguard --extension ublock-origin-lite
 ```
 
 ## List and Manage Extensions
